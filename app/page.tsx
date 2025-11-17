@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -13,49 +14,38 @@ export default function Home() {
           priority
         />
         <div className="content-section">
-          <h1>
-            To get started, edit the page.tsx file.
-          </h1>
+          <h1>Next.js 16 ISR & Cache Demo</h1>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            >
-              Learning
-            </a>{" "}
-            center.
+            This demo showcases the latest Next.js 16 features including Cache
+            Components, ISR, and Partial Prerendering (PPR).
           </p>
         </div>
-        <div className="button-group">
-          <a
-            className="button-primary"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="logo"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="button-secondary"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="demo-links">
+          <Link href="/products" className="demo-card">
+            <h2>Products Catalog</h2>
+            <p>
+              Demonstrates 'use cache' directive with cacheLife() and
+              cacheTag() for granular control.
+            </p>
+          </Link>
+          <Link href="/admin" className="demo-card">
+            <h2>Admin Dashboard</h2>
+            <p>
+              Test cache revalidation with revalidateTag(), updateTag(), and
+              see PPR in action.
+            </p>
+          </Link>
+        </div>
+        <div className="features-list">
+          <h3>Features Demonstrated:</h3>
+          <ul>
+            <li>'use cache' directive</li>
+            <li>cacheLife() API</li>
+            <li>cacheTag() for granular control</li>
+            <li>revalidateTag() for eventual consistency</li>
+            <li>React Server Components (RSC)</li>
+            <li>Partial Prerendering (PPR)</li>
+          </ul>
         </div>
       </main>
     </div>
