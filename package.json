@@ -10,10 +10,11 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "next": "canary",
+    "purecss": "^3.0.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "purecss": "^3.0.0"
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
