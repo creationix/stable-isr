@@ -9,8 +9,11 @@ import { headers } from "next/headers";
 async function ProductDetails({ id }: { id: string }) {
   "use cache";
 
-  // Cache this specific product with its own tag
+  // Cache this specific product with multiple tags
+  // - product-${id}: for individual product revalidation
+  // - products: so "Revalidate All Products" also revalidates this page
   cacheTag(`product-${id}`);
+  cacheTag("products");
   cacheLife("max"); // Use "max" profile for stale-while-revalidate
 
   const product = await getProductById(id);
@@ -30,10 +33,14 @@ async function ProductDetails({ id }: { id: string }) {
         <div className="cache-badge">Cached RSC</div>
         <div className="cache-details">
           <p>
-            <strong>Cache Tag:</strong> product-{id}
+            <strong>Cache Tags:</strong> product-{id}, products
           </p>
           <p>
             <strong>Last Updated:</strong> {product.lastUpdated}
+          </p>
+          <p className="cache-note">
+            Tagged with both <code>product-{id}</code> and <code>products</code> so
+            it revalidates when either tag is invalidated
           </p>
         </div>
       </div>
@@ -118,7 +125,8 @@ export default async function ProductPage({
         <ul>
           <li>
             <strong>Static (Cached):</strong> Product details are cached using{" "}
-            <code>'use cache'</code> with the tag <code>product-{id}</code>
+            <code>'use cache'</code> with tags <code>product-{id}</code> and{" "}
+            <code>products</code>
           </li>
           <li>
             <strong>Dynamic (Uncached):</strong> The timestamp section is
@@ -133,8 +141,9 @@ export default async function ProductPage({
             server time updates
           </li>
           <li>
-            Go to <Link href="/admin">Admin</Link> to invalidate just this
-            product's cache
+            Go to <Link href="/admin">Admin</Link> to revalidate either just this
+            product (using <code>product-{id}</code> tag) or all products (using{" "}
+            <code>products</code> tag)
           </li>
         </ul>
       </div>

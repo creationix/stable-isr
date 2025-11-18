@@ -200,6 +200,9 @@ async function AdminContent() {
             <code>revalidateTag(tag, "max")</code> uses stale-while-revalidate.
             The next request gets cached (stale) content immediately while fresh
             data is fetched in the background. Subsequent requests get the fresh data.
+            <br />
+            <em>Note: In local development with `vc dev`, this may behave like
+            hard revalidation. Deploy to Vercel to see true SWR behavior.</em>
           </li>
           <li>
             <strong>Hard Revalidation (updateTag):</strong>{" "}
