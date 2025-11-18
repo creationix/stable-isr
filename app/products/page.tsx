@@ -5,8 +5,8 @@ import { getAllProducts } from "@/lib/data";
 import Link from "next/link";
 
 export default async function ProductsPage() {
-  // Set cache life to 1 hour
-  cacheLife("hours");
+  // Set cache life to "max" profile (stale-while-revalidate)
+  cacheLife("max");
 
   // Tag this cached content for granular revalidation
   cacheTag("products");
@@ -27,7 +27,7 @@ export default async function ProductsPage() {
         <div className="cache-badge">Cached with 'use cache'</div>
         <div className="cache-details">
           <p>
-            <strong>Cache Life:</strong> hours (stale: 3600s, revalidate: 900s)
+            <strong>Cache Life:</strong> max (stale-while-revalidate)
           </p>
           <p>
             <strong>Cache Tag:</strong> products
@@ -36,8 +36,8 @@ export default async function ProductsPage() {
             <strong>Data Fetched:</strong> {fetchTime}
           </p>
           <p className="cache-note">
-            This page is cached using Next.js 16's Cache Components. The cache
-            will automatically revalidate after 15 minutes in the background.
+            This page is cached using Next.js 16's Cache Components with the "max" profile.
+            It serves stale content immediately while revalidating in the background.
           </p>
         </div>
       </div>
@@ -70,12 +70,11 @@ export default async function ProductsPage() {
             page cached as a React Server Component
           </li>
           <li>
-            <code>cacheLife('hours')</code> sets the cache duration to 1 hour
-            with background revalidation after 15 minutes
+            <code>cacheLife('max')</code> sets the cache to use stale-while-revalidate behavior
           </li>
           <li>
             <code>cacheTag('products')</code> allows us to invalidate this cache
-            on-demand from the admin panel
+            on-demand from the admin panel using either "max" (soft) or "hard" modes
           </li>
           <li>
             The fetch timestamp shows when the data was last retrieved - refresh

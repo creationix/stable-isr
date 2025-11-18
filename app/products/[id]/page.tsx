@@ -11,7 +11,7 @@ async function ProductDetails({ id }: { id: string }) {
 
   // Cache this specific product with its own tag
   cacheTag(`product-${id}`);
-  cacheLife("hours");
+  cacheLife("max"); // Use "max" profile for stale-while-revalidate
 
   const product = await getProductById(id);
 

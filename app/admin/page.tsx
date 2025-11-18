@@ -4,6 +4,9 @@ import {
   revalidateProducts,
   revalidateProductById,
   revalidateProductsPath,
+  revalidateProductsHard,
+  revalidateProductByIdHard,
+  revalidateProductsPathHard,
   updateProductStock,
 } from "@/app/actions/revalidate";
 import { Suspense } from "react";
@@ -35,19 +38,19 @@ async function AdminContent() {
 
       <div className="admin-actions">
         <div className="action-section">
-          <h2>Cache Revalidation</h2>
+          <h2>Cache Revalidation (Soft/SWR)</h2>
           <p>
-            These actions demonstrate on-demand cache revalidation using Next.js
-            16's new APIs.
+            These actions use stale-while-revalidate. The browser will show
+            cached content immediately while revalidating in the background.
           </p>
 
           <form action={revalidateProducts}>
             <button type="submit" className="pure-button pure-button-primary">
-              Revalidate All Products (revalidateTag)
+              Revalidate All Products (revalidateTag "max")
             </button>
             <p className="action-note">
-              Uses <code>revalidateTag('products')</code> to invalidate the
-              products listing cache
+              Uses <code>revalidateTag('products', 'max')</code> - shows stale
+              content while revalidating
             </p>
           </form>
 
@@ -63,8 +66,36 @@ async function AdminContent() {
         </div>
 
         <div className="action-section">
-          <h2>Product-Specific Revalidation</h2>
-          <p>Invalidate cache for individual products by their tag.</p>
+          <h2>Cache Revalidation (Hard/Blocking)</h2>
+          <p>
+            These actions force a blocking reload. The browser will wait for
+            fresh data instead of showing stale content.
+          </p>
+
+          <form action={revalidateProductsHard}>
+            <button type="submit" className="pure-button pure-button-primary">
+              Hard Revalidate All Products (updateTag)
+            </button>
+            <p className="action-note">
+              Uses <code>updateTag('products')</code> - immediately expires cache,
+              forcing blocking reload on next request
+            </p>
+          </form>
+
+          <form action={revalidateProductsPathHard}>
+            <button type="submit" className="pure-button">
+              Hard Revalidate Products Path
+            </button>
+            <p className="action-note">
+              Uses <code>revalidatePath('/products')</code> - immediately expires
+              path cache, blocking until fresh data loads
+            </p>
+          </form>
+        </div>
+
+        <div className="action-section">
+          <h2>Product-Specific Revalidation (Soft/SWR)</h2>
+          <p>Invalidate cache for individual products using stale-while-revalidate.</p>
 
           {productIds.map((id) => (
             <form
@@ -72,7 +103,23 @@ async function AdminContent() {
               action={revalidateProductById.bind(null, id)}
             >
               <button type="submit" className="pure-button">
-                Revalidate Product {id}
+                Revalidate Product {id} (max)
+              </button>
+            </form>
+          ))}
+        </div>
+
+        <div className="action-section">
+          <h2>Product-Specific Revalidation (Hard/Blocking)</h2>
+          <p>Force blocking reload for individual products.</p>
+
+          {productIds.map((id) => (
+            <form
+              key={id}
+              action={revalidateProductByIdHard.bind(null, id)}
+            >
+              <button type="submit" className="pure-button">
+                Hard Revalidate Product {id}
               </button>
             </form>
           ))}
@@ -149,9 +196,16 @@ async function AdminContent() {
             route
           </li>
           <li>
-            <strong>Eventual Consistency:</strong>{" "}
-            <code>revalidateTag()</code> uses stale-while-revalidate, so changes
-            may take a moment to appear
+            <strong>Soft Revalidation (revalidateTag):</strong>{" "}
+            <code>revalidateTag(tag, "max")</code> uses stale-while-revalidate.
+            The next request gets cached (stale) content immediately while fresh
+            data is fetched in the background. Subsequent requests get the fresh data.
+          </li>
+          <li>
+            <strong>Hard Revalidation (updateTag):</strong>{" "}
+            <code>updateTag(tag)</code> immediately expires the cache.
+            The next request will block and wait for fresh data to be fetched -
+            no stale content is served. Can only be used in Server Actions.
           </li>
         </ul>
       </div>
