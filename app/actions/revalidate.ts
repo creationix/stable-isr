@@ -12,7 +12,8 @@ export async function revalidateProductById(id: string) {
 }
 
 export async function revalidateProductsPath() {
-  revalidatePath("/products");
+  // Use "layout" type to revalidate all pages under /products including /products/[id]
+  revalidatePath("/products", "layout");
 }
 
 export async function updateProductStock(id: string, newStock: number) {
@@ -35,6 +36,7 @@ export async function revalidateProductByIdHard(id: string) {
 }
 
 export async function revalidateProductsPathHard() {
-  // For path-based, we use revalidatePath which always does immediate expiration
-  revalidatePath("/products", "page");
+  // Use "layout" type to revalidate all pages under /products including /products/[id]
+  // revalidatePath always does immediate expiration (hard revalidation)
+  revalidatePath("/products", "layout");
 }

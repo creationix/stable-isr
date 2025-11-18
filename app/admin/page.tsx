@@ -59,8 +59,8 @@ async function AdminContent() {
               Revalidate Products Path
             </button>
             <p className="action-note">
-              Uses <code>revalidatePath('/products')</code> to invalidate the
-              entire route
+              Uses <code>revalidatePath('/products', 'layout')</code> to invalidate
+              all routes under /products including individual product pages
             </p>
           </form>
         </div>
@@ -87,8 +87,8 @@ async function AdminContent() {
               Hard Revalidate Products Path
             </button>
             <p className="action-note">
-              Uses <code>revalidatePath('/products')</code> - immediately expires
-              path cache, blocking until fresh data loads
+              Uses <code>revalidatePath('/products', 'layout')</code> - immediately expires
+              all routes under /products, blocking until fresh data loads
             </p>
           </form>
         </div>
@@ -192,8 +192,9 @@ async function AdminContent() {
           </li>
           <li>
             <strong>Path-Based Revalidation:</strong>{" "}
-            <code>revalidatePath()</code> invalidates all cached content for a
-            route
+            <code>revalidatePath(path, type)</code> invalidates cached content for a path.
+            Use <code>type="page"</code> for a single page or <code>type="layout"</code> to
+            revalidate all pages under that path (including nested routes).
           </li>
           <li>
             <strong>Soft Revalidation (revalidateTag):</strong>{" "}
