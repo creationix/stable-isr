@@ -38,8 +38,8 @@ export default function Home() {
           <Link href="/news" className="demo-card">
             <h2>News & Articles</h2>
             <p>
-              On-demand ISR with dynamic routes using the three-layer caching
-              pattern.
+              On-demand ISR with dynamic routes. Params Promise passed directly
+              to cached component - no intermediate compute layer.
             </p>
           </Link>
           <Link href="/dashboard" className="demo-card">

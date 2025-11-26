@@ -85,6 +85,10 @@ export default function NewsIndexPage() {
             After 60s, the cache automatically revalidates on the next request
           </li>
           <li>
+            Params Promise is passed directly to cached component - no
+            intermediate compute layer
+          </li>
+          <li>
             Try visiting an article, then refresh - notice it loads instantly
             from cache
           </li>
