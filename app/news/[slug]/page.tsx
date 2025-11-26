@@ -27,7 +27,7 @@ export default function NewsPage({
 // The cached component with 'use cache' for ISR behavior
 async function CachedStory({ slug }: { slug: Promise<string> }) {
   "use cache";
-  cacheLife("seconds"); // Cache for 60s
+  cacheLife("hours");
 
   // Await the slug promise
   const resolvedSlug = await slug;
