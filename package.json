@@ -12,11 +12,10 @@
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "next": "file:/Users/tim/Code/next.js/packages/next",
+    "next": "canary",
     "purecss": "^3.0.0",
-    "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
-    "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
-    "@next/swc": "file:/Users/tim/Code/next.js/packages/next-swc"
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
@@ -24,23 +23,5 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"
-  },
-  "overrides": {
-    "next": "file:/Users/tim/Code/next.js/packages/next",
-    "@next/mdx": "file:/Users/tim/Code/next.js/packages/next-mdx",
-    "@next/env": "file:/Users/tim/Code/next.js/packages/next-env",
-    "@next/bundle-analyzer": "file:/Users/tim/Code/next.js/packages/next-bundle-analyzer",
-    "@next/swc": "file:/Users/tim/Code/next.js/packages/next-swc",
-    "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
-    "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0"
-  },
-  "resolutions": {
-    "next": "file:/Users/tim/Code/next.js/packages/next",
-    "@next/mdx": "file:/Users/tim/Code/next.js/packages/next-mdx",
-    "@next/env": "file:/Users/tim/Code/next.js/packages/next-env",
-    "@next/bundle-analyzer": "file:/Users/tim/Code/next.js/packages/next-bundle-analyzer",
-    "@next/swc": "file:/Users/tim/Code/next.js/packages/next-swc",
-    "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
-    "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0"
   }
 }
