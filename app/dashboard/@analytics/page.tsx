@@ -19,7 +19,7 @@ export default function AnalyticsSlot() {
         </div>
         <div className="metric-box">
           <h4>Avg. Duration</h4>
-          <p className="metric-value">4.12m</p>
+          <p className="metric-value">4.13m</p>
           <span className="metric-change positive">+8.1%</span>
         </div>
       </div>
