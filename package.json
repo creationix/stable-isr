@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build-with-manifests": "NEXT_TURBOPACK_WRITE_ROUTES_HASHES_MANIFEST=1 next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write"

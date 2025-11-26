@@ -38,118 +38,123 @@ async function AdminContent() {
 
       <div className="admin-actions">
         <div className="action-section">
-          <h2>Cache Revalidation (Soft/SWR)</h2>
-          <p>
-            These actions use stale-while-revalidate. The browser will show
-            cached content immediately while revalidating in the background.
+          <h2>Cache Revalidation Methods</h2>
+          <p style={{ marginBottom: "1rem" }}>
+            Three different approaches to invalidate cached content:
           </p>
-
-          <form action={revalidateProducts}>
-            <button type="submit" className="pure-button pure-button-primary">
-              Revalidate All Products (revalidateTag "max")
-            </button>
-            <p className="action-note">
-              Uses <code>revalidateTag('products', 'max')</code> - shows stale
-              content while revalidating
-            </p>
-          </form>
-
-          <form action={revalidateProductsPath}>
-            <button type="submit" className="pure-button">
-              Revalidate Products Path
-            </button>
-            <p className="action-note">
-              Uses <code>revalidatePath('/products', 'layout')</code> to invalidate
-              all routes under /products including individual product pages
-            </p>
-          </form>
-        </div>
-
-        <div className="action-section">
-          <h2>Cache Revalidation (Hard/Blocking)</h2>
-          <p>
-            These actions force a blocking reload. The browser will wait for
-            fresh data instead of showing stale content.
-          </p>
-
-          <form action={revalidateProductsHard}>
-            <button type="submit" className="pure-button pure-button-primary">
-              Hard Revalidate All Products (updateTag)
-            </button>
-            <p className="action-note">
-              Uses <code>updateTag('products')</code> - immediately expires cache,
-              forcing blocking reload on next request
-            </p>
-          </form>
-
-          <form action={revalidateProductsPathHard}>
-            <button type="submit" className="pure-button">
-              Hard Revalidate Products Path
-            </button>
-            <p className="action-note">
-              Uses <code>revalidatePath('/products', 'layout')</code> - immediately expires
-              all routes under /products, blocking until fresh data loads
-            </p>
-          </form>
-        </div>
-
-        <div className="action-section">
-          <h2>Product-Specific Revalidation (Soft/SWR)</h2>
-          <p>Invalidate cache for individual products using stale-while-revalidate.</p>
-
-          {productIds.map((id) => (
-            <form
-              key={id}
-              action={revalidateProductById.bind(null, id)}
-            >
-              <button type="submit" className="pure-button">
-                Revalidate Product {id} (max)
-              </button>
-            </form>
-          ))}
-        </div>
-
-        <div className="action-section">
-          <h2>Product-Specific Revalidation (Hard/Blocking)</h2>
-          <p>Force blocking reload for individual products.</p>
-
-          {productIds.map((id) => (
-            <form
-              key={id}
-              action={revalidateProductByIdHard.bind(null, id)}
-            >
-              <button type="submit" className="pure-button">
-                Hard Revalidate Product {id}
-              </button>
-            </form>
-          ))}
-        </div>
-
-        <div className="action-section">
-          <h2>Update & Revalidate</h2>
-          <p>
-            Simulate a data update followed by cache revalidation. This
-            demonstrates a common real-world pattern.
-          </p>
-
-          {productIds.slice(0, 3).map((id) => (
-            <form
-              key={id}
-              action={async (formData: FormData) => {
-                "use server";
-                const newStock = Math.floor(Math.random() * 50) + 1;
-                await updateProductStock(id, newStock);
-              }}
-            >
-              <button type="submit" className="pure-button pure-button-primary">
-                Update Stock for Product {id}
-              </button>
-              <p className="action-note">
-                Updates product data and revalidates using{" "}
-                <code>revalidateTag()</code>
+          <div className="revalidation-methods-grid">
+            <div className="method-card">
+              <h3>revalidateTag()</h3>
+              <p className="method-description">
+                Soft revalidation (SWR) - serves stale content while revalidating
+                in background
               </p>
-            </form>
-          ))}
+              <form action={revalidateProducts}>
+                <button type="submit" className="pure-button admin-button soft">
+                  <span className="button-label">Revalidate Products Tag</span>
+                  <span className="button-desc">revalidateTag('products', 'max')</span>
+                </button>
+              </form>
+            </div>
+
+            <div className="method-card">
+              <h3>updateTag()</h3>
+              <p className="method-description">
+                Hard revalidation - immediately expires cache, blocks until fresh
+                data loads
+              </p>
+              <form action={revalidateProductsHard}>
+                <button type="submit" className="pure-button admin-button hard">
+                  <span className="button-label">Update Products Tag</span>
+                  <span className="button-desc">updateTag('products')</span>
+                </button>
+              </form>
+            </div>
+
+            <div className="method-card">
+              <h3>revalidatePath()</h3>
+              <p className="method-description">
+                Invalidates all routes under a path (including nested routes)
+              </p>
+              <div className="path-buttons">
+                <form action={revalidateProductsPath}>
+                  <button type="submit" className="pure-button admin-button-small soft">
+                    Soft
+                  </button>
+                </form>
+                <form action={revalidateProductsPathHard}>
+                  <button type="submit" className="pure-button admin-button-small hard">
+                    Hard
+                  </button>
+                </form>
+              </div>
+              <p className="button-desc" style={{ marginTop: "0.5rem", fontSize: "0.75rem", opacity: 0.8 }}>
+                revalidatePath('/products', 'layout')
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="action-section">
+          <h2>Individual Product Revalidation</h2>
+          <div className="product-revalidation-grid">
+            {productIds.map((id) => (
+              <div key={id} className="product-revalidation-row">
+                <span className="product-id">Product {id}</span>
+                <div className="product-actions">
+                  <form action={revalidateProductById.bind(null, id)}>
+                    <button type="submit" className="pure-button admin-button-medium soft">
+                      <span className="button-label-small">Soft</span>
+                      <span className="button-api">revalidateTag('product-{id}')</span>
+                    </button>
+                  </form>
+                  <form action={revalidateProductByIdHard.bind(null, id)}>
+                    <button type="submit" className="pure-button admin-button-medium hard">
+                      <span className="button-label-small">Hard</span>
+                      <span className="button-api">updateTag('product-{id}')</span>
+                    </button>
+                  </form>
+                  <form
+                    action={async () => {
+                      "use server";
+                      const newStock = Math.floor(Math.random() * 50) + 1;
+                      await updateProductStock(id, newStock);
+                    }}
+                  >
+                    <button type="submit" className="pure-button admin-button-medium update">
+                      <span className="button-label-small">Update Stock</span>
+                      <span className="button-api">updateProductStock({id}, stock)</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="action-section">
+          <h3>Legend</h3>
+          <div className="legend-grid">
+            <div className="legend-item">
+              <span className="legend-badge soft">Soft</span>
+              <span className="legend-text">
+                Stale-while-revalidate - shows cached content immediately while
+                fetching fresh data in background
+              </span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-badge hard">Hard</span>
+              <span className="legend-text">
+                Blocking reload - waits for fresh data before showing content
+              </span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-badge update">Update</span>
+              <span className="legend-text">
+                Simulates data update + cache revalidation (random stock value)
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 

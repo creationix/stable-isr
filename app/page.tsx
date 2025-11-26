@@ -35,6 +35,20 @@ export default function Home() {
               see PPR in action.
             </p>
           </Link>
+          <Link href="/news" className="demo-card">
+            <h2>News & Articles</h2>
+            <p>
+              On-demand ISR with dynamic routes using the three-layer caching
+              pattern.
+            </p>
+          </Link>
+          <Link href="/dashboard" className="demo-card">
+            <h2>Parallel Routes</h2>
+            <p>
+              Explore Next.js parallel routes with independent loading and
+              rendering of dashboard sections.
+            </p>
+          </Link>
         </div>
         <div className="features-list">
           <h3>Features Demonstrated:</h3>
