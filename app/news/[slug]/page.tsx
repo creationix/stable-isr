@@ -1,11 +1,9 @@
-"use cache";
-
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
 // Page shell that provides layout and suspense boundary
-export default async function NewsPage({
+export default function NewsPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -28,7 +26,7 @@ export default async function NewsPage({
 
 // The cached component with 'use cache' for ISR behavior
 async function CachedStory({ slug }: { slug: Promise<string> }) {
-  "use cache";
+  "use cache: remote";
   cacheLife("seconds");
 
   // Await the slug promise
