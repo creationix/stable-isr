@@ -1,13 +1,16 @@
-import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
+// export const generateStaticParams = () => []
+
 // Page shell that provides layout and suspense boundary
-export default function NewsPage({
+export default async function NewsPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -18,24 +21,20 @@ export default function NewsPage({
       </div>
 
       <Suspense fallback={<div className="loading">Loading article...</div>}>
-        <CachedStory slug={params.then((p) => p.slug)} />
+        <CachedStory slug={slug} />
       </Suspense>
     </div>
   );
 }
 
 // The cached component with 'use cache' for ISR behavior
-async function CachedStory({ slug }: { slug: Promise<string> }) {
-  "use cache: remote";
-  cacheLife("seconds");
-
-  // Await the slug promise
-  const resolvedSlug = await slug;
+async function CachedStory({ slug }: { slug: string }) {
+  "use cache";
 
   // Simulate heavy DB work
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const title = resolvedSlug
+  const title = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");

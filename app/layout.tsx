@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Next.js 16 ISR & Cache Demo",
+  title: "Next.js 16 ISR & Cache Demo!",
   description: "A demo showcasing Next.js 16 features including Cache Components, ISR, and Partial Prerendering (PPR).",
 };
 
