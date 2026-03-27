@@ -1,9 +1,11 @@
 import { compile } from "./rex"
 
-module.exports = {
-  "routes": [
+export default {
+  routes: [
     {
-      "middlewareRawSource": ["=(headers$x-flow-26:)g,Hack the planet!"]
+      middlewareRawSource: [compile(`
+        headers.x-flow-26 = "Hack the planet with style!"
+      `)],
     }
   ]
 }
