@@ -1,7 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "rex:=(headers$x-flow-26:)g,Hack the planet!"
-    }
-  ]
-}
