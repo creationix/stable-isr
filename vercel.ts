@@ -8,7 +8,7 @@ const src = rex`
 
 
 
-export default { routes: [{ src }] }
+export default { routes: { src } }
 
 
 
