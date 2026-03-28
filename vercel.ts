@@ -9,9 +9,12 @@ export default {
       res.headers.x-flow-26 = "Hack the planet with style!"
 
       // We can do arbitrary routing logic
-      when res.path == "/hello" do
+      when req.path == "/hello" do
         name = req.query.name or "world"
-        res.headers.x-greeting = "Hwllo, " + name + "!"
+        res.headers.x-greeting = "Hello, " + name + "!"
+        res.status = 200
+        // TODO: implement in proxy
+        // res.body = "Hello, " + name + "!"
       end
     `        
   ]

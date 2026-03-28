@@ -1,8 +1,21 @@
-import { createRequire } from "node:module";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { grammar as compileGrammar } from "ohm-js";
 
-const require = createRequire(import.meta.url);
-const rexGrammarModule = require("./rex.ohm-bundle.cjs");
-const rexGrammar = rexGrammarModule?.default ?? rexGrammarModule;
+function loadRexGrammarSource(): string {
+	const candidates = [new URL("./rex.ohm", import.meta.url), resolve(process.cwd(), "rex.ohm")];
+
+	for (const candidate of candidates) {
+		if (existsSync(candidate)) {
+			return readFileSync(candidate, "utf8");
+		}
+	}
+
+	throw new Error(`Unable to locate rex.ohm. Tried: ${candidates.join(", ")}`);
+}
+
+const rexGrammarSource = loadRexGrammarSource();
+const rexGrammar = compileGrammar(rexGrammarSource);
 
 export const grammar = rexGrammar;
 export const semantics = rexGrammar.createSemantics();
@@ -1840,7 +1853,7 @@ function optimizeNode(node: IRNode, env: OptimizeEnv, currentDepth: number, asPl
 			} satisfies IRNode;
 		case "navigation": {
 			const target = optimizeNode(node.target, env, currentDepth);
-			const segments = node.segments.map((segment) => (segment.type === "static"
+			const segments: Extract<IRNode, { type: "navigation" }>["segments"] = node.segments.map((segment) => (segment.type === "static"
 				? segment
 				: { type: "dynamic", key: optimizeNode(segment.key, env, currentDepth) }));
 
@@ -1926,7 +1939,7 @@ function optimizeNode(node: IRNode, env: OptimizeEnv, currentDepth: number, asPl
 
 			// Strip dead assignment from condition: when x=expr do ... end
 			// If x is no longer read in the optimized body/else, unwrap to just the value.
-			let finalCondition = condition;
+			let finalCondition: IRNode = condition;
 			if (condition.type === "assign" && condition.op === "=" && condition.place.type === "identifier") {
 				const name = condition.place.name;
 				const reads = new Set<string>();
