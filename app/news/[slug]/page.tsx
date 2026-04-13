@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-// export const generateStaticParams = () => []
-
 // Page shell that provides layout and suspense boundary
-export default async function NewsPage({
+export default function NewsPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-
   return (
     <div className="page-container">
       <div className="page-header">
@@ -21,15 +17,16 @@ export default async function NewsPage({
       </div>
 
       <Suspense fallback={<div className="loading">Loading article...</div>}>
-        <CachedStory slug={slug} />
+        <CachedStory params={params} />
       </Suspense>
     </div>
   );
 }
 
 // The cached component with 'use cache' for ISR behavior
-async function CachedStory({ slug }: { slug: string }) {
+async function CachedStory({ params }: { params: Promise<{ slug: string }> }) {
   "use cache";
+  const { slug } = await params;
 
   // Simulate heavy DB work
   await new Promise((resolve) => setTimeout(resolve, 2000));
