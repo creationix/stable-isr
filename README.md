@@ -2,6 +2,8 @@
 
 A comprehensive demo showcasing the latest Next.js 16 caching features including Cache Components, ISR (Incremental Static Regeneration), and Partial Prerendering (PPR).
 
+Also used to test build optimizations with combined metadata.
+
 ## Features Demonstrated
 
 ### Next.js 16 Cache Components
