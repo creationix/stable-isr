@@ -17,10 +17,10 @@ export default {
 //       end
 //     `        
 //   ]
-// }
+}
 
 // function rex([string]: TemplateStringsArray) {
 //   const route = { src: `^rex:${compile(string.trim())}$` }
 //   console.log("Compiled rex route:", route)
 //   return route
-}
+// }
