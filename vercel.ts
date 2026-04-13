@@ -1,6 +1,6 @@
 // import { compile } from "./rex"
 
-// export default {
+export default {
 //   routes: [
 //     rex`
 //       // This is rex code that will be compiled to rexc bytecode
@@ -23,4 +23,4 @@
 //   const route = { src: `^rex:${compile(string.trim())}$` }
 //   console.log("Compiled rex route:", route)
 //   return route
-// }
+}
